@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo.png">
+    <title>Spring Rate Calculator</title>
+</head>
+
+<body>
+    <div class="container">
+        <img src="logo.svg" alt="Logo" class="logo">
+        <h1>Spring Rate Calculator</h1>
+
+        <div class="input-group">
+            <label for="shear-name">Shear Modulus [GPa]</label>
+            <input id="shear-modulus" name="shear-name" type="number" value="75">
+        </div>
+
+        <div class="input-group">
+            <label for="wire-name">d [mm]</label>
+            <input id="wire-diameter" name="wire-name" type="number" value="0.8">
+        </div>
+
+        <div class="input-group">
+            <label for="coils-name">Number of coils</label>
+            <input id="coils" name="coils-name" type="number" value="7">
+        </div>
+
+        <div class="range-inputs">
+            <div class="input-group">
+                <label for="min-name">Minimum Spring Rate [N/m]</label>
+                <input id="min" name="min-name" type="number" value="64">
+            </div>
+
+            <div class="input-group">
+                <label for="max-name">Maximum Spring Rate [N/m]</label>
+                <input id="max" name="max-name" type="number" value="353">
+            </div>
+        </div>
+
+        <button id="hide-schemas">Hide Schemas</button>
+
+        <div class="schemas-container">
+            <img src="diagram.svg" width="600" style="background-color: white;" alt="Spring Diagram">
+        </div>
+
+        <div id="spring-rate" class="plot"></div>
+        <div id="conclusion">
+            <p > Maximum Spring Diameter is <span id="max-con"></span> mm. </p>
+            <p> Minimum Spring Diameter is is <span id="min-con"></span> mm. </p>
+        
+        </div>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-2.34.0.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.1.1/math.min.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

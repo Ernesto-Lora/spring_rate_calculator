@@ -78,7 +78,7 @@ button {
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #28a745;
+    background-color: #5c7eac;
     color: white;
     border: none;
     border-radius: 5px;
@@ -87,7 +87,7 @@ button {
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #1550a4;
 }
 
 .schemas-container {

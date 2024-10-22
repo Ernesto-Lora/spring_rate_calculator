@@ -45,6 +45,7 @@ class spring{
         this.max = max;
     }
     plot(){
+
         function springRateD(D) {
             return springRate(G.valueAsNumber*1e9,
                  d.valueAsNumber*1e-3,
@@ -64,6 +65,12 @@ class spring{
 
         var maxD = findD(G.valueAsNumber*1e9, d.valueAsNumber*1e-3,
             n.valueAsNumber, min1);
+
+        var recommendedD = (minD+maxD)/2;
+        var recommendedSpringRate = springRate(G.valueAsNumber*1e9,
+            d.valueAsNumber*1e-3,
+            n.valueAsNumber,
+            recommendedD*1e-3);
 
         var minPlotSpringRate = 0;
 
@@ -107,6 +114,16 @@ class spring{
             }
         }
 
+        let line5 = {
+            x : [recommendedD, recommendedD],
+            y : [minPlotSpringRate, recommendedSpringRate],
+            name:"Recommended Diameter",
+            type: "line",
+            line: {color: "#1ac451",
+                dash: "dash"
+            }
+        }
+
         let layout = {
             title: '',
             xaxis: {
@@ -118,12 +135,16 @@ class spring{
             };
 
         Plotly.newPlot('spring-rate',
-            [trace[0], line1, line2, line3, line4], layout);
+            [trace[0], line1, line2, line3, line4, line5], layout);
 
-        let minCon = document.getElementById("min-con");
-        let maxCon = document.getElementById("max-con");
-        minCon.innerHTML = minD.toFixed(2);
-        maxCon.innerHTML = maxD.toFixed(2);
+        let minDiameterDoc = document.getElementById("min-Diameter");
+        let maxDiameterDoc = document.getElementById("max-Diameter");
+        let recommendedDiameterDoc = document.getElementById("recommended-Diameter");
+
+
+        minDiameterDoc.innerHTML = minD.toFixed(2);
+        maxDiameterDoc.innerHTML = maxD.toFixed(2);
+        recommendedDiameterDoc.innerHTML = recommendedD.toFixed(2);
     }
 }
 var G = document.getElementById("shear-modulus");

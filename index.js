@@ -37,14 +37,34 @@ function getTraces(limits = [], color = [],step, function0){
 }
 
 class spring{
-    constructor(G, d, n, min, max){
+    constructor(G, d, n, length, min, max){
         this.G = G;
         this.d = d;
         this.n = n;
         this.min = min;
         this.max = max;
+        this.length = length;
     }
+
     plot(){
+        const springRateDoc = document.getElementById("spring-rate");
+        const minDiameterDoc = document.getElementById("min-Diameter");
+        const maxDiameterDoc = document.getElementById("max-Diameter");
+        const recommendedDiameterDoc = document.getElementById("recommended-Diameter");
+        const conclusionDoc = document.getElementById("conclusion");
+
+        const errorMessage = document.getElementById("error-message");
+        if(this.d.valueAsNumber*this.n.valueAsNumber > this.length.valueAsNumber){
+            errorMessage.textContent = "Error: Number of coils times the wire diameter has to be shorter than Spring Length.";
+            errorMessage.style.display = "block";  // Show error message
+            springRateDoc.style.display = "none"; // Hide error if inputs are InCorrect
+            conclusionDoc.style.display = "none"; // Hide error if inputs are InCorrect
+           
+        } else {
+            errorMessage.style.display = "none";  // Hide error if inputs are correct
+            springRateDoc.style.display = "block"; // Hide error if inputs are InCorrect
+            conclusionDoc.style.display = "block"; // Hide error if inputs are InCorrect
+        }
 
         function springRateD(D) {
             return springRate(G.valueAsNumber*1e9,
@@ -52,10 +72,6 @@ class spring{
                  n.valueAsNumber,
                  D*1e-3);
         }
-
-
-        let limits1 = [10, 26];
-        let trace = getTraces(limits1, ["#024CAA"], 0.1e-3, springRateD);
 
         var min1 = this.min.valueAsNumber;
         var max1 = this.max.valueAsNumber;
@@ -65,6 +81,9 @@ class spring{
 
         var maxD = findD(G.valueAsNumber*1e9, d.valueAsNumber*1e-3,
             n.valueAsNumber, min1);
+        
+        let limits1 = [minD, 26];
+        let trace = getTraces(limits1, ["#024CAA"], 0.1e-3, springRateD);
 
         var recommendedD = (minD+maxD)/2;
         var recommendedSpringRate = springRate(G.valueAsNumber*1e9,
@@ -76,7 +95,7 @@ class spring{
 
 
         let line1 = {
-            x : [10, minD],
+            x : [minD, minD],
             y : [max1, max1],
             name:"Min Spring Rate",
             type: "line",
@@ -85,7 +104,7 @@ class spring{
             }
         }
         let line2 = {
-            x : [10, maxD],
+            x : [minD, maxD],
             y : [min1, min1],
             name:"Max Spring Rate",
             type: "line",
@@ -137,9 +156,6 @@ class spring{
         Plotly.newPlot('spring-rate',
             [trace[0], line1, line2, line3, line4, line5], layout);
 
-        let minDiameterDoc = document.getElementById("min-Diameter");
-        let maxDiameterDoc = document.getElementById("max-Diameter");
-        let recommendedDiameterDoc = document.getElementById("recommended-Diameter");
 
 
         minDiameterDoc.innerHTML = minD.toFixed(2);
@@ -147,14 +163,16 @@ class spring{
         recommendedDiameterDoc.innerHTML = recommendedD.toFixed(2);
     }
 }
+
 var G = document.getElementById("shear-modulus");
 var d = document.getElementById("wire-diameter");
 var n = document.getElementById("coils");
+var length = document.getElementById("length");
 
 var min = document.getElementById("min");
 var max = document.getElementById("max");
 
-var spring1 = new spring(G=G, d=d, n=n, min=min, max=max);
+var spring1 = new spring(G, d, n, length, min, max);
 spring1.plot();
 
 
